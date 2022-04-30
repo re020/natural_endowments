@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+   <!-- <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/db1"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="zh123456"></property>
+    </bean>-->
+    <context:component-scan base-package="com"/>
+
+    <context:property-placeholder location="druid.properties"/>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${prop.driverClassName}"/>
+        <property name="url" value="${prop.url}"/>
+        <property name="username" value="${prop.username}"/>
+        <property name="password" value="${prop.password}"/>
+    </bean>
+
+    <!--配置SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--关联Mybatis-->
+        <property name="configLocation" value="classpath:mybatis_config.xml"/>
+        <property name="mapperLocations" value="classpath:te/*.xml"/>
+    </bean>
+
+    <!--注册sqlSessionTemplate , 关联sqlSessionFactory-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <!--利用构造器注入-->
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!--<bean id="enDoScoreService" class="com.service.impl.EnDoScoreServiceImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>-->
+    <!--加载mybatis映射配置的扫描，将其作为spring的bean进行管理-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="te"/>
+    </bean>
+
+
+</beans>

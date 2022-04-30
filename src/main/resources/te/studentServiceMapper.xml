@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.StudentService">
+    <!-- sql语句-->
+    <resultMap id="BaseResultMap" type="com.pojo.ClassTeacher">
+        <id column="id" property="ctId"/>
+        <result column="class_id" property="classId"/>
+        <result column="teacher_id" property="teId"/>
+        <result column="academic_year" property="acaYear"/>
+    </resultMap>
+
+    <resultMap id="TeMap" type="com.pojo.Teacher">
+        <id column="id" property="teId"/>
+        <result column="te_number" property="teNum"/>
+        <result column="name" property="teName"/>
+        <result column="password" property="passwd"/>
+        <result column="college_id" property="collegeId"/>
+    </resultMap>
+    
+    
+    <select id="selectTe" resultMap="BaseResultMap" >
+        select * from class_teacher where class_id = #{classId}
+    </select>
+    <select id="selectTeName" resultMap="TeMap">
+        select name from teacher where id=#{teId}
+    </select>
+
+</mapper>

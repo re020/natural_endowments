@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.TeScoreService">
+    <!-- sql语句-->
+
+    <resultMap id="AsMap" type="com.pojo.AllScore">
+        <id column="id" property="scId"/>
+        <result column="class_id" property="classId"/>
+        <result column="teacher_id" property="teId"/>
+        <result column="student_id" property="stuId"/>
+        <result column="teacher_score" property="teScore"/>
+        <result column="academic_year" property="acaYear"/>
+    </resultMap>
+
+    <insert id="insertTeScore" >
+        insert
+        into all_score
+        value (#{asId},#{classId},#{teId},#{stuId},#{teScore},#{acaYear},#{seme})
+    </insert>
+   <!-- <insert id="insertTeScore">
+        insert id,class_id,teacher_id,student_id,teacher_score,academic_year,seme
+         into all_score value (#{as.asId},#{as.classId},#{as.teId},#{as.stuId},#{as.teScore},
+                                    #{as.acaYear},#{as.seme})
+    </insert>
+-->
+</mapper>
